@@ -2,12 +2,19 @@
 require_once('lib/func.php');
 require_once('lib/sms.php');
 
+// Reject all other request type
+if ($_SERVER['REQUEST_METHOD']!='POST')
+	echo "hey there";exit;
+
+// Get the body, need to also check for valid json format
 $json = file_get_contents('php://input');
 $sms = json_decode($json);
 
+// Sanitize sender message
 $phone = sanitize_phone($sms->uid);
 $message = strtoupper(trim($sms->message));
 
+// First msg, check if it is a player already and send initial message
 if (!already_subscribed($phone)) {
 	subscribe($phone);
 	send_first_message($phone);
@@ -16,9 +23,9 @@ if (!already_subscribed($phone)) {
 
 $player = getPlayer($phone);
 
+// Game has 2 flows, boys or girls, set the flow in database
 if ($player['gender'] == '') {
 	if (($message != "BOYS") && ($message != "GIRLS")) {
-		echo "im here";
 		send_error($phone);
 		exit;
 	}
@@ -34,6 +41,7 @@ if ($player['gender'] == '') {
 	exit;
 }
 
+// Base on scene and gender, we build the cases with the keyword choice
 switch ($player['scene']) {
 	case "step1":
 		if ($player['gender'] == "BOYS" && $message == "CONVO") {
