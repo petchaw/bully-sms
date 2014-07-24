@@ -1,10 +1,13 @@
 <?php
+header("Content-type:application/json");
 require_once('lib/func.php');
 require_once('lib/sms.php');
 
 // Reject all other request type
-if ($_SERVER['REQUEST_METHOD']!='POST')
-	echo "hey there";exit;
+if ($_SERVER['REQUEST_METHOD']!='POST') {
+	echo "hey there";
+	exit;
+}
 
 // Get the body, need to also check for valid json format
 $json = file_get_contents('php://input');
