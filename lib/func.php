@@ -24,29 +24,24 @@ function already_subscribed($phone) {
 	else return true;
 }
 
+function reset_game($phone) {
+	$conn = dbconnect();
+	$result = $conn->query("UPDATE players SET gender = '', scene = '' where phone = '" . mysql_real_escape_string($phone) . "'");
+	$conn->close();
+}
+
 function sanitize_phone($phone) {
 	$charstostrip = array('-', ' ', '+', '(', ')');
 	$phonenbr = str_replace($charstostrip, '', $phone);
 	return $phonenbr;
 }
 
-function send_first_message($phone) {
-	$message = "You arrive at school and get ur schedule. AH! Gym first period! Head to the locker room to get ready. Do you use the BOYS or GIRLS locker room?";
-	send_msg($phone, $message);
-}
-
-function send_error($phone) {
-	$message = "Invalid keyword, you have to text one of the words in all caps as your choice";
-	send_msg($phone, $message);
-}
-
 function send_msg($to, $message) {
 	$sms = array();
 	$sms['to'] = $to;
-	$sms['message'] = $message;
+	$sms['message'] = htmlspecialchars($message);
 	$response = json_encode($sms);
     echo $response;
-    return 1;
 }
 
 function update_gender($phone, $gender) {
