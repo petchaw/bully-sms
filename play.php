@@ -20,7 +20,7 @@ $message = strtoupper(trim($sms->message));
 // Reset the player in the databas so he can play again
 if ($message == "RESET") {
 	reset_game($phone);
-	send_msg($phone, $reset);
+	send_msg($phone, $first);
 	exit;
 }
 
