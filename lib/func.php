@@ -28,7 +28,7 @@ function already_subscribed($phone) {
 
 function sanitize_phone($phone) {
 	$charstostrip = array('-', ' ', '+', '(', ')');
-	$phonenbr = substr(str_replace($charstostrip, '', $phone), -8);
+	$phonenbr = str_replace($charstostrip, '', $phone);
 	return $phonenbr;
 }
 
