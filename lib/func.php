@@ -14,15 +14,16 @@ function getPlayer($phone) {
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 	$conn->close();
+	return $row;
 }
 
 
 function already_subscribed($phone) {
 	$conn = dbconnect();
 	$result = $conn->query("select phone from players where phone = '" . mysql_real_escape_string($phone) . "'");
+	$conn->close();
 	if ($result->num_rows == 0) return false;
 	else return true;
-	$conn->close();
 }
 
 
