@@ -16,6 +16,6 @@ $talk = "\"Hey girl, don't listen to her, she's just insecure. Wanna be in my gr
 $end = "You finished playing this game, subscribe to our next game";
 $first = "You arrive at school and get ur schedule. AH! Gym first period! Head to the locker room to get ready. Do you use the BOYS or GIRLS locker room?";
 $error = "Invalid keyword, you have to text one of the words in all caps as your choice";
-$reset = "You can start the game over now"
+$reset = "You can start the game over now";
 
 ?>
