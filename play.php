@@ -1,15 +1,12 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors','1');
-
 require_once('lib/func.php');
 require_once('lib/sms.php');
 
 $json = file_get_contents('php://input');
 $sms = json_decode($json);
 
-$phone = sanitize_phone($sms['uid']);
-$message = strtoupper(trim($sms['message']));
+$phone = sanitize_phone($sms->uid);
+$message = strtoupper(trim($sms->message));
 
 if (!already_subscribed($phone)) {
 	subscribe($phone);
@@ -20,7 +17,8 @@ if (!already_subscribed($phone)) {
 $player = getPlayer($phone);
 
 if ($player['gender'] == '') {
-	if ($message != "BOYS" || $message != "GIRLS") {
+	if (($message != "BOYS") && ($message != "GIRLS")) {
+		echo "im here";
 		send_error($phone);
 		exit;
 	}
@@ -35,7 +33,6 @@ if ($player['gender'] == '') {
 	}
 	exit;
 }
-
 
 switch ($player['scene']) {
 	case "step1":

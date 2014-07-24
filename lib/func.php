@@ -7,7 +7,6 @@ function dbconnect() {
 	return $conn;
 }
 
-
 function getPlayer($phone) {
 	$conn = dbconnect();
 	$sql = "SELECT id, phone, gender, scene FROM players WHERE phone = ".mysql_real_escape_string($phone)." LIMIT 1";
@@ -17,7 +16,6 @@ function getPlayer($phone) {
 	return $row;
 }
 
-
 function already_subscribed($phone) {
 	$conn = dbconnect();
 	$result = $conn->query("select phone from players where phone = '" . mysql_real_escape_string($phone) . "'");
@@ -26,27 +24,23 @@ function already_subscribed($phone) {
 	else return true;
 }
 
-
 function sanitize_phone($phone) {
 	$charstostrip = array('-', ' ', '+', '(', ')');
 	$phonenbr = str_replace($charstostrip, '', $phone);
 	return $phonenbr;
 }
 
-
 function send_first_message($phone) {
 	$message = "You arrive at school and get ur schedule. AH! Gym first period! Head to the locker room to get ready. Do you use the BOYS or GIRLS locker room?";
-	send_sms($phone, $message);
+	send_msg($phone, $message);
 }
-
 
 function send_error($phone) {
-	$message = "Invalid keyword, you have to text one of the words in all caps as you choice";
-	send_sms($phone, $message);
+	$message = "Invalid keyword, you have to text one of the words in all caps as your choice";
+	send_msg($phone, $message);
 }
 
-
-function send_sms($to, $message) {
+function send_msg($to, $message) {
 	$sms = array();
 	$sms['to'] = $to;
 	$sms['message'] = $message;
@@ -54,7 +48,6 @@ function send_sms($to, $message) {
     echo $response;
     return 1;
 }
-
 
 function update_gender($phone, $gender) {
 	$conn = dbconnect();
@@ -64,7 +57,6 @@ function update_gender($phone, $gender) {
 	else return false;
 }
 
-
 function update_scene($phone, $scene) {
 	$conn = dbconnect();
 	$result = $conn->query("UPDATE players SET scene = '" . mysql_real_escape_string($scene) . "' WHERE phone = " . mysql_real_escape_string($phone));
@@ -72,7 +64,6 @@ function update_scene($phone, $scene) {
 	if ($result) return true;
 	else return false;
 }
-
 
 function subscribe($phone) {
 	$conn = dbconnect();
